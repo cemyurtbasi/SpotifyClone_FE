@@ -1,0 +1,22 @@
+.playListItem {
+  @extend %displayCenter;
+  @extend %slow300;
+  cursor: pointer;
+  margin: 5px 0;
+  &:hover {
+    background: $background-primary-hover;
+    span {
+      color: white;
+    }
+  }
+  &-img {
+    margin-right: 15px;
+  }
+  &-text {
+    @extend %displayColumn;
+    span:first-child {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+  }
+}

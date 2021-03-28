@@ -1,0 +1,16 @@
+.login {
+  @extend %displayCenterCenter;
+  height: 100vh;
+
+  &__btn {
+    background-color: $background-primary;
+    @extend %slow300;
+    border-radius: 5px;
+    padding: 5px 15px;
+    color: white;
+    &:hover {
+      color: white;
+      background-color: $background-primary-hover;
+    }
+  }
+}

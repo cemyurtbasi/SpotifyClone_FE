@@ -1,0 +1,114 @@
+//center
+%displayCenter {
+  display: flex;
+  align-items: center;
+}
+
+%displayJustCenter {
+  display: flex;
+  justify-content: center;
+}
+
+%displayCenterCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//column
+
+%displayColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+%displayColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+%displayColumnBetween {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+%displayColumnJustCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// end
+
+%displayEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+
+%displayEndCenter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+// between
+
+%displayBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+%displayBetweenCenter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+//wrap
+
+%displayWrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+%displayWrapBetween {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+//full
+%displayFull {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+%slow300 {
+  transition: all 300ms linear;
+}
+
+%scrollYBlue {
+  overflow-y: auto !important;
+  &::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f7f6f6;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background:  $background-primary;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background:  $background-primary;
+  }
+}
