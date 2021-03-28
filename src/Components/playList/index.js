@@ -27,7 +27,7 @@ const PlayList = ({ code }) => {
     if (!playingTrack) return;
 
     axios
-      .get("http://localhost:3001/lyrics", {
+      .get(process.env.REACT_APP_API_URL+"/lyrics", {
         params: {
           track: playingTrack.title,
           artist: playingTrack.artist,
