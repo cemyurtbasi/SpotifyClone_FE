@@ -27,11 +27,9 @@ const PlayList = ({ code }) => {
     if (!playingTrack) return;
 
     axios
-      .get(process.env.REACT_APP_API_URL+"/lyrics", {
-        params: {
-          track: playingTrack.title,
-          artist: playingTrack.artist,
-        },
+      .post(process.env.REACT_APP_API_URL + "/GetLyric", {
+        track: playingTrack.title,
+        artist: playingTrack.artist,
       })
       .then((res) => {
         setLyrics(res.data.lyrics);
