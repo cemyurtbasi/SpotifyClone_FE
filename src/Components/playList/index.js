@@ -1,39 +1,58 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useAuth from "../../Shared/utils/useAuth";
 import "./css/playList.scss";
 import SpotifyWebApi from "spotify-web-api-node";
 import axios from "axios";
 import PlayListItem from "./playListItem";
 import Player from "./player";
-import {getBaseServiceUrl} from "../../Shared/utils/baseUrls";
+import { getBaseServiceUrl } from "../../Shared/utils/baseUrls";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
 });
 
-const PlayList = ({ code }) => {
+const code = new URLSearchParams(window.location.search).get("code");
+
+const PlayList = () => {
   const accessToken = useAuth(code);
+  const [recentSearches, setRecentSearches] = useState([]);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
   const [lyrics, setLyrics] = useState("");
 
-  const chooseTrack = (track) => {
+  const chooseTrack = useCallback((track) => {
     setPlayingTrack(track);
     setSearch("");
     setLyrics("");
-  };
+  }, []);
+
+  useEffect(() => {
+    axios.post(getBaseServiceUrl() + "/GetAllSong").then((res) => {
+      if (res.data.status === "Success") {
+        setRecentSearches(res.data.data);
+      }
+    });
+  }, [playingTrack]);
 
   useEffect(() => {
     if (!playingTrack) return;
+    if (playingTrack.lyrics) return setLyrics(playingTrack.lyrics);
 
     axios
       .post(getBaseServiceUrl() + "/GetLyric", {
-        track: playingTrack.title,
         artist: playingTrack.artist,
+        track: playingTrack.title,
+        track_uri: playingTrack.uri,
+        track_image_url: playingTrack.albumUrl,
       })
       .then((res) => {
         setLyrics(res.data.lyrics);
+        axios.post(getBaseServiceUrl() + "/GetAllSong").then((res) => {
+          if (res.data.status === "Success") {
+            setRecentSearches(res.data.data);
+          }
+        });
       });
   }, [playingTrack]);
 
@@ -72,8 +91,40 @@ const PlayList = ({ code }) => {
     return () => (cancel = true);
   }, [search, accessToken]);
 
+  const recentSearchesControl = useCallback(() => {
+    if (!recentSearches) return "";
+
+    return (
+      <div className="playList-recentSearches">
+        {recentSearches.map((song, i) => {
+          return (
+            <div
+              className="playList-recentSearches-item"
+              key={i}
+              onClick={() =>
+                chooseTrack({
+                  uri: song.track_uri,
+                  lyrics: song.lyrics,
+                })
+              }
+            >
+              <div className="playList-recentSearches-item-img">
+                <img src={song.track_image_url} alt={song.track} />
+              </div>
+              <div className="playList-recentSearches-item-text">
+                <span>{song.track}</span>
+                <span>{song.artist}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }, [recentSearches, chooseTrack]);
+
   return (
     <div className="playList">
+      {recentSearchesControl()}
       <input
         className="playList__search"
         value={search}

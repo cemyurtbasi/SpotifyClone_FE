@@ -112,3 +112,26 @@
     background:  $background-primary;
   }
 }
+
+%scrollXBlue {
+  overflow-x: auto !important;
+  &::-webkit-scrollbar {
+    height: 5px;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $background-primary;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $background-primary;
+  }
+}
+

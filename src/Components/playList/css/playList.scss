@@ -21,4 +21,34 @@
   &-lyrics {
     text-align: center;
   }
+  &-recentSearches {
+    @extend %displayCenter;
+    @extend %scrollXBlue;
+    min-height: 100px;
+    &-item {
+      width: fit-content;
+      @extend %displayCenter;
+      @extend %slow300;
+      cursor: pointer;
+      margin: 5px;
+      padding-right: 10px;
+      &:hover {
+        background: $background-primary-hover;
+        span {
+          color: white;
+        }
+      }
+      &-img {
+        margin-right: 15px;
+      }
+      &-text {
+        @extend %displayColumn;
+        white-space: nowrap;
+        span:first-child {
+          font-weight: 600;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
 }
