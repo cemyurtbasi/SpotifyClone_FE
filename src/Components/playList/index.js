@@ -5,6 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import axios from "axios";
 import PlayListItem from "./playListItem";
 import Player from "./player";
+import {getBaseServiceUrl} from "../../Shared/utils/baseUrls";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_CLIENT_ID,
@@ -27,7 +28,7 @@ const PlayList = ({ code }) => {
     if (!playingTrack) return;
 
     axios
-      .post(process.env.REACT_APP_API_URL + "/GetLyric", {
+      .post(getBaseServiceUrl() + "/GetLyric", {
         track: playingTrack.title,
         artist: playingTrack.artist,
       })

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import {getBaseServiceUrl} from "./baseUrls";
 import axios from "axios";
 
 export default function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
-  const baseUrl = process.env.REACT_APP_API_URL;
+  const baseUrl = getBaseServiceUrl();
   useEffect(() => {
     axios
       .post(baseUrl + "/login", {

@@ -1,10 +1,11 @@
 import React from "react";
+import { getBaseAuthUrl } from "../../Shared/utils/baseUrls";
 import "./css/login.scss";
 
 const Login = (props) => {
   return (
     <div className="login">
-      <a className="login__btn" href={process.env.REACT_APP_AUTH_URL}>
+      <a className="login__btn" href={getBaseAuthUrl()}>
         Spotify İle Giriş Yap
       </a>
     </div>
