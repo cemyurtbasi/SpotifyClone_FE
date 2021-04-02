@@ -3,12 +3,13 @@
   @extend %slow300;
   cursor: pointer;
   margin: 5px 0;
-  &:hover {
+  &:hover,&.active {
     background: $background-primary-hover;
     span {
       color: white;
     }
   }
+
   &-img {
     margin-right: 15px;
   }
