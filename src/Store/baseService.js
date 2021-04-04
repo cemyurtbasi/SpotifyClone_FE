@@ -2,13 +2,10 @@ import axios from "axios";
 
 export default class baseService {
   constructor() {
-    const host = window.location.host;
-
-    if (host.includes("localhost"))
-      this.apiURL = process.env.REACT_APP_API_URL_LOCALE;
-    else {
-      this.apiURL = process.env.REACT_APP_API_URL;
-    }
+    this.apiURL =
+      process.env.NODE_ENV === "production"
+        ? "/api/v1"
+        : "http://localhost:5000/api/v1";
   }
 
   postObject(funcName, entity) {
