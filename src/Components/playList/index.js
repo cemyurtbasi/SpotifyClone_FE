@@ -7,7 +7,7 @@ import Player from "./player";
 import PublicService from "../../Store/public";
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.REACT_APP_CLIENT_ID,
+  clientId: "c3cffede07d5469081fa41af153063fe",
 });
 const publicService = new PublicService();
 
