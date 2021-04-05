@@ -26,31 +26,7 @@
       padding: 0 5px;
     }
   }
-  &-recentSearches {
-    background: #fff;
-    @extend %displayCenter;
-    @extend %scrollXBlue;
-    min-height: 100px;
-
-    > div {
-      @extend %slow300;
-      margin: 5px;
-      padding: 5px 10px 5px 5px;
-      border-top-left-radius: 40px;
-      border-bottom-left-radius: 40px;
-      img {
-        border-radius: 50%;
-      }
-      span {
-        @extend %displayColumn;
-        white-space: nowrap;
-        span:first-child {
-          font-weight: 600;
-          margin-bottom: 5px;
-        }
-      }
-    }
-  }
+ 
   &-player {
     > div {
       padding: 0 15px;

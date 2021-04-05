@@ -5,6 +5,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 import PlayListItem from "./playListItem";
 import Player from "./player";
 import PublicService from "../../Store/public";
+import RecentSearches from "./recentSearches";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "c3cffede07d5469081fa41af153063fe",
@@ -13,26 +14,15 @@ const publicService = new PublicService();
 
 const PlayList = memo(() => {
   const accessToken = useAuth();
-  const [recentSearches, setRecentSearches] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [playingSong, setPlayingSong] = useState();
+  const [isPlaying, setIsPlaying] = useState(false);
   const [lyrics, setLyrics] = useState("");
-
-  const scrollToViewRef = useRef(null);
 
   const chooseTrack = useCallback((song) => {
     setPlayingSong(song);
     setSearchText("");
-    setLyrics("");
-  }, []);
-
-  useEffect(() => {
-    publicService.getAllSongs().then((res) => {
-      if (res.status === "Success") {
-        setRecentSearches(res.data);
-      }
-    });
   }, []);
 
   useEffect(() => {
@@ -41,11 +31,6 @@ const PlayList = memo(() => {
 
     publicService.getSongLyric({ ...playingSong }).then((res) => {
       setLyrics(res.lyrics);
-      publicService.getAllSongs().then((res) => {
-        if (res.status === "Success") {
-          setRecentSearches(res.data);
-        }
-      });
     });
   }, [playingSong]);
 
@@ -84,35 +69,7 @@ const PlayList = memo(() => {
     return () => (cancel = true);
   }, [searchText, accessToken]);
 
-  const recentSearchesControl = useCallback(() => {
-    if (!recentSearches) return "";
-
-    return (
-      <div className="playList-recentSearches">
-        {recentSearches.map((song, i) => {
-          const isActive = playingSong?.track_uri === song.track_uri;
-          return (
-            <PlayListItem
-              song={song}
-              key={i}
-              active={isActive}
-              referans={isActive ? scrollToViewRef : undefined}
-              chooseTrack={chooseTrack}
-            />
-          );
-        })}
-        {setTimeout(() => {
-          scrollToViewRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-            inline: "start",
-          });
-        }, 500)}
-      </div>
-    );
-  }, [recentSearches, chooseTrack, playingSong, scrollToViewRef]);
-
-  const playlistControl = useCallback(() => {
+  const searchResultsControl = useCallback(() => {
     if (searchResults.length > 0) {
       return searchResults.map((song) => (
         <PlayListItem
@@ -126,9 +83,18 @@ const PlayList = memo(() => {
     }
   }, [searchResults, chooseTrack, lyrics]);
 
+  const recentSearchesRef = useRef();
+  const songFinishedControl = useCallback(() => {
+    recentSearchesRef.current.choseNextTrack();
+  }, []);
+
   return (
     <div className="playList">
-      {recentSearchesControl()}
+      <RecentSearches
+        ref={recentSearchesRef}
+        playingSong={playingSong}
+        chooseTrack={chooseTrack}
+      />
       <input
         className="playList__search"
         value={searchText}
@@ -136,9 +102,15 @@ const PlayList = memo(() => {
         type="text"
         placeholder="Şarkı, Albüm veya Sanatçı arayabilirsiniz."
       />
-      <div className="playList-list">{playlistControl()}</div>
+      <div className="playList-list">{searchResultsControl()}</div>
       <div className="playList-player">
-        <Player accessToken={accessToken} trackUri={playingSong?.track_uri} />
+        <Player
+          accessToken={accessToken}
+          isPlaying={isPlaying}
+          setIsPlaying={setIsPlaying}
+          trackUri={playingSong?.track_uri}
+          songFinishedControl={songFinishedControl}
+        />
       </div>
     </div>
   );
