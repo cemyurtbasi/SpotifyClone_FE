@@ -57,6 +57,14 @@ const RecentSearches = memo(
       getAllSongsControl();
     }, [getAllSongsControl]);
 
+    const onDeleteControl = useCallback((trankUri) => {
+      publicService.deleteSong(trankUri).then((res) => {
+        if (res.status === "Success") {
+          setRecentSearches(prev => prev.filter(s => s.track_uri !== trankUri));
+        }
+      });
+    },[])
+
     const componentControl = useMemo(() => {
       if (!recentSearches) return "";
 
@@ -75,6 +83,7 @@ const RecentSearches = memo(
               <PlayListItem
                 song={song}
                 key={i}
+                onDelete={onDeleteControl}
                 active={isActive}
                 referans={isActive ? scrollToViewRef : undefined}
                 chooseTrack={chooseTrack}
@@ -83,7 +92,7 @@ const RecentSearches = memo(
           })}
         </div>
       );
-    }, [chooseTrack, playingSong?.track_uri, recentSearches]);
+    }, [chooseTrack, playingSong?.track_uri, recentSearches, onDeleteControl]);
 
     return componentControl;
   })

@@ -9,6 +9,9 @@ export default class PublicService extends baseService {
   getAllSongs(entity) {
     return this.postObject("GetAllSong", entity);
   }
+  deleteSong(entity) {
+    return this.postObject("DeleteSong", entity);
+  }
   getSongLyric(entity) {
     return this.postObject("GetLyric", entity);
   }
