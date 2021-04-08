@@ -25,12 +25,18 @@ const PlayList = memo(() => {
     setSearchText("");
   }, []);
 
+  const recentSearchesRef = useRef();
   useEffect(() => {
-    if (!playingSong) return;
-    if (playingSong.lyrics) return setLyrics(playingSong.lyrics);
+    if (!playingSong) return console.log("!playingSong");
+    if (playingSong.lyrics) {
+      console.log("playingSong.lyrics");
+      return setLyrics(playingSong.lyrics);
+    }
+    console.log("sözleri çekti");
 
     publicService.getSongLyric({ ...playingSong }).then((res) => {
       setLyrics(res.lyrics);
+      recentSearchesRef?.current?.getAllSongs();
     });
   }, [playingSong]);
 
@@ -83,9 +89,8 @@ const PlayList = memo(() => {
     }
   }, [searchResults, chooseTrack, lyrics]);
 
-  const recentSearchesRef = useRef();
   const songFinishedControl = useCallback(() => {
-    recentSearchesRef.current.choseNextTrack();
+    recentSearchesRef?.current?.choseNextTrack();
   }, []);
 
   return (

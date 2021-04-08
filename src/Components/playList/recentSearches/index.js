@@ -23,6 +23,9 @@ const RecentSearches = memo(
       choseNextTrack() {
         choseNextTrackControl();
       },
+      getAllSongs() {
+        getAllSongsControl()
+      }
     }));
 
     const choseNextTrackControl = useCallback(() => {
@@ -34,7 +37,7 @@ const RecentSearches = memo(
           setTimeout(() => {
             chooseTrack(recentSearches[findexIndex + 1]);
           }, 200);
-        }else{
+        } else {
           setTimeout(() => {
             chooseTrack(recentSearches[0]);
           }, 200);
@@ -42,13 +45,17 @@ const RecentSearches = memo(
       }
     }, [playingSong, recentSearches, chooseTrack]);
 
-    useEffect(() => {
+    const getAllSongsControl = useCallback(() => {
       publicService.getAllSongs().then((res) => {
         if (res.status === "Success") {
           setRecentSearches(res.data);
         }
       });
-    }, []);
+    },[]);
+
+    useEffect(() => {
+      getAllSongsControl();
+    }, [getAllSongsControl]);
 
     const componentControl = useMemo(() => {
       if (!recentSearches) return "";
