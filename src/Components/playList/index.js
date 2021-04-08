@@ -27,12 +27,10 @@ const PlayList = memo(() => {
 
   const recentSearchesRef = useRef();
   useEffect(() => {
-    if (!playingSong) return console.log("!playingSong");
+    if (!playingSong) return;
     if (playingSong.lyrics) {
-      console.log("playingSong.lyrics");
       return setLyrics(playingSong.lyrics);
     }
-    console.log("sözleri çekti");
 
     publicService.getSongLyric({ ...playingSong }).then((res) => {
       setLyrics(res.lyrics);
