@@ -34,11 +34,11 @@ const PlayList = memo(() => {
     }
     setLoading(true);
     publicService.getSongLyric({ ...playingSong }).then((res) => {
+      setLoading(false);
       setLyrics(res.lyrics);
       recentSearchesRef?.current?.getAllSongs();
-      setLoading(false);
     });
-  }, [playingSong]);
+  }, [playingSong, loading]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -103,7 +103,7 @@ const PlayList = memo(() => {
         );
       return <div className="playList-list-lyrics">{lyrics}</div>;
     }
-  }, [searchResults, chooseTrack, lyrics]);
+  }, [searchResults, chooseTrack, lyrics, loading]);
 
   const songFinishedControl = useCallback(() => {
     recentSearchesRef?.current?.choseNextTrack();
