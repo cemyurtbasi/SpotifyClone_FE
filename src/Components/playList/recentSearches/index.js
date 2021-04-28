@@ -57,8 +57,8 @@ const RecentSearches = memo(
       getAllSongsControl();
     }, [getAllSongsControl]);
 
-    const onDeleteControl = useCallback((trankUri) => {
-      publicService.deleteSong({trankUri}).then((res) => {
+    const onDeleteControl = useCallback((track_uri) => {
+      publicService.deleteSong({track_uri}).then((res) => {
         if (res.status === "Success") {
           setRecentSearches(prev => prev.filter(s => s.track_uri !== trankUri));
         }
