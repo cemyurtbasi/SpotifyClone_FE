@@ -38,7 +38,7 @@ const PlayList = memo(() => {
       setLyrics(res.lyrics);
       recentSearchesRef?.current?.getAllSongs();
     });
-  }, [playingSong, loading]);
+  }, [playingSong]);
 
   useEffect(() => {
     if (!accessToken) return;
