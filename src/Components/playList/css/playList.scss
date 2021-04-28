@@ -2,7 +2,23 @@
   @extend %displayColumn;
   width: 100%;
   height: 100vh;
-  background: #eeeeee;
+  background: rgb(32, 35, 42);
+  background: -moz-linear-gradient(
+    225deg,
+    rgba(32, 35, 42, 0.4) 0%,
+    rgba(97, 167, 251, 0.3) 100%
+  );
+  background: -webkit-linear-gradient(
+    225deg,
+    rgba(32, 35, 42, 0.4) 0%,
+    rgba(97, 167, 251, 0.3) 100%
+  );
+  background: linear-gradient(
+    225deg,
+    rgba(32, 35, 42, 0.4) 0%,
+    rgba(97, 167, 251, 0.3) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#20232a",endColorstr="#61a7fb",GradientType=1);
   &__search {
     @extend %slow300;
     min-height: 55px;
@@ -23,10 +39,18 @@
     &-lyrics {
       text-align: center;
       white-space: pre-wrap;
-      padding: 0 5px;
+      width: fit-content;
+      margin: auto;
+      padding: 15px;
+      background: white;
+      border-radius: 15px;
+      @include media767 {
+        width: calc(100vw - 30px);
+        margin: auto 15px;
+      }
     }
   }
- 
+
   &-player {
     > div {
       padding: 0 15px;

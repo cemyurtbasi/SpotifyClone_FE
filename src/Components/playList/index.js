@@ -19,6 +19,7 @@ const PlayList = memo(() => {
   const [playingSong, setPlayingSong] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const [lyrics, setLyrics] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const chooseTrack = useCallback((song) => {
     setPlayingSong(song);
@@ -31,10 +32,11 @@ const PlayList = memo(() => {
     if (playingSong.lyrics) {
       return setLyrics(playingSong.lyrics);
     }
-
+    setLoading(true);
     publicService.getSongLyric({ ...playingSong }).then((res) => {
       setLyrics(res.lyrics);
       recentSearchesRef?.current?.getAllSongs();
+      setLoading(false);
     });
   }, [playingSong]);
 
@@ -83,6 +85,22 @@ const PlayList = memo(() => {
         />
       ));
     } else {
+      if (loading)
+        return (
+          <div className="playList-list-lyrics">
+            <img
+              src="../Assets/images/loading.gif"
+              alt="Spotif Loading"
+              className="playList-list-lyrics__loadingImage"
+              style={{
+                maxWidth: 200,
+                maxHeight: 200,
+                margin: "auto",
+                display: "block",
+              }}
+            />
+          </div>
+        );
       return <div className="playList-list-lyrics">{lyrics}</div>;
     }
   }, [searchResults, chooseTrack, lyrics]);

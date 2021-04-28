@@ -53,6 +53,7 @@ const SpotiyfAuth = (props) => {
             React.js
           </a>
         </div>
+        
       </div>
     </div>
   );
